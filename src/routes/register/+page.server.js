@@ -28,21 +28,21 @@ export const actions = {
 		}
 
 		// Speichert den Benutzer und behandelt doppelte Einträge
-		let userId;
+				let userId;
 		try {
 			const hash = await hashPassword(password);
 			const [result] = await pool.execute(
-				'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+				'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
 				[username, email, hash]
 			);
 			userId = result.insertId;
 		} catch (error) {
+			console.error('REGISTER ERROR:', error);
 			if (error.code === 'ER_DUP_ENTRY') {
 				return fail(400, { error: 'Username or e-mail is already taken', username, email });
 			}
 			return fail(400, { error: 'Registration failed. Please try again', username, email });
 		}
-
 		// Erstellt die Session und setzt das Cookie
 		try {
 			const sessionId = await createSession(userId);
@@ -52,9 +52,9 @@ export const actions = {
 				httpOnly: true,
 				sameSite: 'lax'
 			});
-		} catch {
+			} catch (error) {
+			console.error('SESSION ERROR:', error);
 			return fail(400, { error: 'Account created. Please log in', username, email });
 		}
-		redirect(303, '/dashboard');
 	}
 };

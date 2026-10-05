@@ -26,7 +26,7 @@ export async function createSession(userId) {
 // Prüft eine Session und gibt den dazugehörigen User zurück (oder null).
 export async function validateSession(sessionId) {
     const [rows] = await pool.execute(
-        `SELECT u.id, u.username, u.email, u.is_admin
+        `SELECT u.id, u.name AS username, u.email, u.role
          FROM sessions s JOIN users u ON s.user_id = u.id
          WHERE s.id = ? AND s.expires_at > NOW()`,
         [sessionId]

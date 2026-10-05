@@ -18,9 +18,9 @@ export const actions = {
 		if (!username || !password) {
 			return fail(400, { error: 'Wrong username or password', username });
 		}
-		const [users] = await pool.execute('SELECT id, password_hash FROM users WHERE username = ?', [
-			username
-		]);
+		const [users] = await pool.execute('SELECT id, password_hash FROM users WHERE name = ?', [
+    username
+]);
 		const user = users[0];
 		if (!user || !(await verifyPassword(password, user.password_hash))) {
 			return fail(400, { error: 'Wrong username or password', username });
