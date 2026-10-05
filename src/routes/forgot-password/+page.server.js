@@ -15,7 +15,7 @@ export const actions = {
         }
 
         // Verify Mail: gibt es einen User mit dieser E-Mail?
-        const [rows] = await pool.execute('SELECT id, username FROM users WHERE email = ?', [email]);
+        const [rows] = await pool.execute('SELECT id, name FROM users WHERE email = ?', [email]);
 
         if (rows.length > 0) {
             const user = rows[0];
@@ -37,10 +37,10 @@ export const actions = {
             const link = url.origin + '/reset-password?token=' + token;
 
             await transporter.sendMail({
-                from: env.SMTP_FROM,
+                from: env.MAIL_FROM,
                 to: email,
                 subject: 'Reset your password',
-                text: 'Hi ' + user.username + ',\n\nclick this link to set a new password (valid for 15 minutes):\n' + link
+                text: 'Hi ' + user.name + ',\n\nclick this link to set a new password (valid for 15 minutes):\n' + link
             });
         }
 

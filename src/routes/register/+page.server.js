@@ -12,7 +12,7 @@ export const actions = {
 	register: async ({ request, cookies }) => {
 		const data = await request.formData();
 		const username = String(data.get('username') ?? '').trim();
-		const email = String(data.get('email') ?? '').trim();
+		const email = String(data.get('email') ?? '').trim().toLowerCase();
 		const password = String(data.get('password') ?? '');
 		const password2 = String(data.get('password2') ?? '');
 
@@ -56,5 +56,7 @@ export const actions = {
 			console.error('SESSION ERROR:', error);
 			return fail(400, { error: 'Account created. Please log in', username, email });
 		}
+
+		redirect(303, '/dashboard');
 	}
 };
