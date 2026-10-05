@@ -16,9 +16,11 @@
 		<h1 class="mb-2 text-3xl font-bold tracking-tight text-slate-900">Make yourself at home.</h1>
 		<p class="mb-8 text-sm leading-6 text-slate-500">Create an account in just a few steps.</p>
 		<form action="?/register" method="POST" class="flex flex-col gap-5">
+			<!-- Fehlermeldung, falls die Registrierung fehlgeschlagen ist -->
 			{#if form?.error}
 				<p class="alert-error" role="alert">{form.error}</p>
 			{/if}
+			<!-- Eingabefeld für den Username -->
 			<div>
 				<label class="label" for="username">Username</label>
 				<input
@@ -30,6 +32,7 @@
 					required
 				/>
 			</div>
+			<!-- Eingabefeld für die E-Mail (wird für den Passwort-Reset gebraucht) -->
 			<div>
 				<label class="label" for="email">E-mail</label>
 				<input
@@ -42,6 +45,7 @@
 					required
 				/>
 			</div>
+			<!-- Eingabefeld für das Passwort (mind. 8 Zeichen) -->
 			<div>
 				<label class="label" for="password">Password</label>
 				<p id="password-help" class="mb-2 text-xs text-slate-500">Use at least 8 characters.</p>
@@ -56,6 +60,7 @@
 					required
 				/>
 			</div>
+			<!-- Passwort wiederholen -->
 			<div>
 				<label class="label" for="password2">Confirm password</label>
 				<input
@@ -68,6 +73,7 @@
 					required
 				/>
 			</div>
+			<!-- Absende-Button -->
 			<button class="btn-primary" type="submit">Register</button>
 			<!-- Verlinkt zur Anmeldung -->
 			<p class="border-t border-slate-100 pt-5 text-center text-sm text-slate-500">

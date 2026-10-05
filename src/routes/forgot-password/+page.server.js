@@ -7,9 +7,11 @@ import { createToken, hashToken } from '$lib/server/token.js';
 export const actions = {
     // Prüft die E-Mail, speichert einen Token und schickt den Reset-Link.
     send: async ({ request, url }) => {
+        // Formulardaten auslesen, E-Mail klein schreiben
         const form = await request.formData();
         const email = String(form.get('email') ?? '').trim().toLowerCase();
 
+        // Leeres Feld -> Fehlermeldung
         if (!email) {
             return fail(400, { error: 'Please enter your e-mail', email });
         }
@@ -19,6 +21,7 @@ export const actions = {
 
         if (rows.length > 0) {
             const user = rows[0];
+            // Zufälligen Token für den Link erzeugen
             const token = createToken();
 
             // Alte, noch offene Tokens ungültig machen -> immer nur ein gültiger Link
@@ -36,6 +39,7 @@ export const actions = {
             // Send Mail: Link mit dem echten Token (nicht dem Hash)
             const link = url.origin + '/reset-password?token=' + token;
 
+            // Mail über SMTP2GO verschicken (Absender aus MAIL_FROM in .env)
             await transporter.sendMail({
                 from: env.MAIL_FROM,
                 to: email,

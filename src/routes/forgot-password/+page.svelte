@@ -8,6 +8,7 @@
     <title>Forgot password | Your account</title>
 </svelte:head>
 
+<!-- Passwort vergessen: E-Mail eingeben oder Bestätigung anzeigen -->
 <main class="page">
     <section class="card">
         <a class="link mb-6 inline-block text-sm" href={resolve('/login')}>← Back to login</a>
@@ -30,9 +31,11 @@
                 Enter your e-mail and we will send you a link to reset it.
             </p>
             <form action="?/send" method="POST" class="flex flex-col gap-5">
+                <!-- Fehlermeldung, z.B. wenn keine E-Mail eingegeben wurde -->
                 {#if form?.error}
                     <p class="alert-error" role="alert">{form.error}</p>
                 {/if}
+                <!-- Eingabefeld für die E-Mail -->
                 <div>
                     <label class="label" for="email">E-Mail</label>
                     <input
@@ -45,6 +48,7 @@
                         required
                     />
                 </div>
+                <!-- Absende-Button: schickt das Formular an den send-Action -->
                 <button class="btn-primary" type="submit">Send mail</button>
                 <!-- Verlinkt zurück zum Login -->
                 <p class="border-t border-slate-100 pt-5 text-center text-sm text-slate-500">
